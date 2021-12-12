@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "console.h": "c",
+        "system_error": "c",
+        "game.h": "c"
+    }
+}

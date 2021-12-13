@@ -9,6 +9,9 @@
 int main(){
     int gameShouldContinue = 1; // True
     window_t window = {NULL, 1000, 500};
+    GLuint shader;
+    float* vertices = NULL; 
+    GLuint vaoID;
 
     consolePrintInformation("Beginning of the simulation");
 
@@ -19,7 +22,7 @@ int main(){
     }
 
     consolePrintSection("LOAD CONTENT");
-    if(gameLoadContent() == -1){
+    if(gameLoadContent(&shader, vertices, &vaoID) == -1){
         consolePrintError("Error while loeading contents");
         return -1;
     }
@@ -31,12 +34,13 @@ int main(){
             gameShouldContinue = 0;
         }
         else{
-            if(gameDraw()){
+            if(gameDraw(&window, &shader, &vaoID)){
                 consolePrintError("Error while trying to draw");
                 return -1;
             }
     	}
     }
     consolePrintSection("TERMINATE");
+    free(vertices);
     return gameTerminate();
 }

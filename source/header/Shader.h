@@ -15,5 +15,6 @@ char* readFragmentShader(const char* shaderName, int* shaderLength);
 GLuint compileShader(const char* shaderName);
 GLuint compileVertexShader(const char* shaderName);
 GLuint compileFragmentShader(const char* shaderName);
+void useShader(GLuint shaderID);
 
 #endif

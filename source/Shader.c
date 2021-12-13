@@ -40,7 +40,8 @@ char* readVertexShader(const char* shaderName, int* shaderLength){
     // Copying vertexShader into returnVertexShader that will be returned
     printf("File contains %d char\n", nbrCharVertexShader);
     returnVertexShader = malloc(nbrCharVertexShader + 1);
-    memcpy(returnVertexShader, vertexShader, nbrCharVertexShader);
+    returnVertexShader[nbrCharVertexShader] = '\n';
+    memcpy(returnVertexShader, vertexShader, nbrCharVertexShader + 1);
 
     *shaderLength = nbrCharVertexShader;
     return returnVertexShader;
@@ -83,7 +84,8 @@ char* readFragmentShader(const char* shaderName, int* shaderLength){
     // Copying vertexShader into returnVertexShader that will be returned
     printf("File contains %d char\n", nbrCharFragmentShader);
     returnFragmentShader = malloc(nbrCharFragmentShader + 1);
-    memcpy(returnFragmentShader, fragmentShader, nbrCharFragmentShader);
+    returnFragmentShader[nbrCharFragmentShader] = '\n';
+    memcpy(returnFragmentShader, fragmentShader, nbrCharFragmentShader + 1);
 
 
     *shaderLength = nbrCharFragmentShader;
@@ -101,7 +103,7 @@ GLuint compileVertexShader(const char* shaderName){
     shaderID = glCreateShader(GL_VERTEX_SHADER);
     vertexShader = readVertexShader(shaderName, &vertexLength);
 
-    glShaderSource(shaderID, 1, &vertexShader, NULL);
+    glShaderSource(shaderID, 1, (const GLchar * const*)&vertexShader, NULL);
     glCompileShader(shaderID);
 
     // Check if there is no error in the shader
@@ -136,7 +138,7 @@ GLuint compileFragmentShader(const char* shaderName){
     shaderID = glCreateShader(GL_FRAGMENT_SHADER);
     fragmentShader = readFragmentShader(shaderName, &fragmentLength);
 
-    glShaderSource(shaderID, 1, &fragmentShader, NULL);
+    glShaderSource(shaderID, 1, (const GLchar * const*)&fragmentShader, NULL);
     glCompileShader(shaderID);
 
     // Check if there is no error in the shader
@@ -198,4 +200,8 @@ GLuint compileShader(const char* shaderName){
     glDeleteShader(fragmentID);
 
     return programID;
+}
+
+void useShader(GLuint shaderID){
+    glUseProgram(shaderID);
 }

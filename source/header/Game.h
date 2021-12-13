@@ -6,6 +6,7 @@
 
 #include "Console.h"
 #include "Shader.h"
+#include "GraphicalObject.h"
 
 typedef struct window {
    GLFWwindow* ID;
@@ -14,9 +15,9 @@ typedef struct window {
 } window_t;
 
 int gameSetup(window_t* window);
-int gameLoadContent();
-int gameUpdate();
-int gameDraw();
+int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID);
+int gameUpdate(window_t* window);
+int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID);
 int gameTerminate();
 
 

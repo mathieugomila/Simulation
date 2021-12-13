@@ -34,12 +34,27 @@ int gameSetup(window_t* window){
     return 0;
 }
 
-int gameLoadContent(){
-    // Create array of point
-
+int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID){
     // Load shader
-    GLuint programID = compileShader("basic");
+    *shader = compileShader("basic");
 
+    // Create array of point
+    vertices = (float*)malloc(6 * 2 * sizeof(float));
+    vertices[0] = 0;
+    vertices[1] = 1.0;
+    vertices[2] = 1.0;
+    vertices[3] = 1.0;
+    vertices[4] = 0;
+    vertices[5] = 0;
+    vertices[6] = 0;
+    vertices[7] = 0;
+    vertices[8] = 1.0;
+    vertices[9] = 1.0;
+    vertices[10] = 1.0;
+    vertices[11] = 0;
+
+    *vaoID = createVAO(vertices, 6);
+    
     return 0;
 }
 
@@ -54,9 +69,29 @@ int gameUpdate(window_t* window){
 
     return 0;
 }
-int gameDraw(){
+
+int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID){
+    // Set up some parameters
+    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+
+    //glFrontFace(GL_CW);
+
+    // Reset different buffers
+    glClearColor(0.5, 0.5, 0.5, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+
+    // draw using shader
+    useShader(*shader);
+    drawVAO(*vaoID, 6);
+    useShader(0);
+    
+    // swap buffers
+    glfwSwapBuffers(window->ID);
+
     return 0;
 }
+
 int gameTerminate(){
     glfwTerminate();
     return 0;

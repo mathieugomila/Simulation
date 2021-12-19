@@ -17,7 +17,7 @@ typedef struct window {
 int gameSetup(window_t* window);
 int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID);
 int gameUpdate(window_t* window);
-int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID);
+int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color);
 int gameTerminate();
 
 

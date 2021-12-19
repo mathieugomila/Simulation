@@ -40,26 +40,24 @@ int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID){
 
     // Create array of point
     vertices = (float*)malloc(6 * 2 * sizeof(float));
-    vertices[0] = 0;
+    vertices[0] = -1.0;
     vertices[1] = 1.0;
     vertices[2] = 1.0;
     vertices[3] = 1.0;
-    vertices[4] = 0;
-    vertices[5] = 0;
-    vertices[6] = 0;
-    vertices[7] = 0;
+    vertices[4] = -1.0;
+    vertices[5] = -1.0;
+    vertices[6] = -1.0;
+    vertices[7] = -1.0;
     vertices[8] = 1.0;
     vertices[9] = 1.0;
     vertices[10] = 1.0;
-    vertices[11] = 0;
+    vertices[11] = -1.0;
 
     *vaoID = createVAO(vertices, 6);
-    
     return 0;
 }
 
 int gameUpdate(window_t* window){
-
     // Update input (keyboard/mouse) data
     glfwPollEvents();
 
@@ -67,18 +65,19 @@ int gameUpdate(window_t* window){
         return 1;
     }
 
+
     return 0;
 }
 
-int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID){
+int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color){
     // Set up some parameters
     glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
-    //glFrontFace(GL_CW);
+    glFrontFace(GL_CW);
 
     // Reset different buffers
-    glClearColor(0.5, 0.5, 0.5, 1.0f);
+    glClearColor(*color, *color, *color, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
     // draw using shader

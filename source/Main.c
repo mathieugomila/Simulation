@@ -8,10 +8,11 @@
 
 int main(){
     int gameShouldContinue = 1; // True
-    window_t window = {NULL, 1000, 500};
+    window_t window = {NULL, 1000, 1000};
     GLuint shader;
     float* vertices = NULL; 
     GLuint vaoID;
+    float color = 0.5;
 
     consolePrintInformation("Beginning of the simulation");
 
@@ -34,7 +35,7 @@ int main(){
             gameShouldContinue = 0;
         }
         else{
-            if(gameDraw(&window, &shader, &vaoID)){
+            if(gameDraw(&window, &shader, &vaoID, &color)){
                 consolePrintError("Error while trying to draw");
                 return -1;
             }

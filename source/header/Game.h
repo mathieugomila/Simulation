@@ -7,6 +7,7 @@
 #include "Console.h"
 #include "Shader.h"
 #include "GraphicalObject.h"
+#include "Particules.h"
 
 typedef struct window {
    GLFWwindow* ID;
@@ -15,9 +16,9 @@ typedef struct window {
 } window_t;
 
 int gameSetup(window_t* window);
-int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID);
-int gameUpdate(window_t* window);
-int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color);
+int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID, state** allParticulesStates, int nbrOfParticules);
+int gameUpdate(window_t* window, state** allParticulesStates, int nbrOfParticules);
+int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color, state** allParticulesStates, int nbrOfParticules);
 int gameTerminate();
 
 

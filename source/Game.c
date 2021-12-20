@@ -34,30 +34,22 @@ int gameSetup(window_t* window){
     return 0;
 }
 
-int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID){
+int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID, state** allParticulesStates, int nbrOfParticules){
     // Load shader
     *shader = compileShader("basic");
 
-    // Create array of point
-    vertices = (float*)malloc(6 * 2 * sizeof(float));
-    vertices[0] = -1.0;
-    vertices[1] = 1.0;
-    vertices[2] = 1.0;
-    vertices[3] = 1.0;
-    vertices[4] = -1.0;
-    vertices[5] = -1.0;
-    vertices[6] = -1.0;
-    vertices[7] = -1.0;
-    vertices[8] = 1.0;
-    vertices[9] = 1.0;
-    vertices[10] = 1.0;
-    vertices[11] = -1.0;
+    // Create particules    
+    for(int i = 0; i < nbrOfParticules; i++){
+        allParticulesStates[i] = createParticule();
+        vertices = createParticuleVerticesArray(allParticulesStates[i]);
+        vaoID[i] = createVAO2D(vertices, 6);
+    }   
 
-    *vaoID = createVAO(vertices, 6);
+    
     return 0;
 }
 
-int gameUpdate(window_t* window){
+int gameUpdate(window_t* window, state** allParticulesStates, int nbrOfParticules){
     // Update input (keyboard/mouse) data
     glfwPollEvents();
 
@@ -65,11 +57,20 @@ int gameUpdate(window_t* window){
         return 1;
     }
 
+    checkAllCollision(allParticulesStates, nbrOfParticules);
+
+    checkAllBoundaries(allParticulesStates, nbrOfParticules);
+
+    // Update position of all particules
+    for(int i = 0; i < nbrOfParticules; i++){
+        allParticulesStates[i]->position[0] += 0.005 * allParticulesStates[i]->direction[0];
+        allParticulesStates[i]->position[1] += 0.005 * allParticulesStates[i]->direction[1];
+    }
 
     return 0;
 }
 
-int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color){
+int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color, state** allParticulesStates, int nbrOfParticules){
     // Set up some parameters
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -82,7 +83,13 @@ int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color){
 
     // draw using shader
     useShader(*shader);
-    drawVAO(*vaoID, 6);
+
+    // update particule position
+    GLuint uniformID = glGetUniformLocation(*shader, "particulePosition");
+    for(int i = 0; i < nbrOfParticules; i++){
+        glUniform2f(uniformID, allParticulesStates[i]->position[0], allParticulesStates[i]->position[1]);
+        drawVAO(vaoID[i], 6);
+    }
     useShader(0);
     
     // swap buffers

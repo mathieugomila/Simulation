@@ -9,7 +9,7 @@ SRC= $(wildcard $(SOURCE_DIR)/*.c)
 OBJ_tempo= $(notdir $(SRC:%.c=%.o))
 OBJ = $(OBJ_tempo:%.o=$(OBJ_DIR)/%.o)
 
-DEP = -lGL -lGLU -lglut -lGLEW -lglfw -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -I/usr/local/include -L/usr/local/lib  
+DEP = -lGL -lGLU -lglut -lGLEW -lglfw -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lm -I/usr/local/include -L/usr/local/lib  
 
 EXEC = debug
 

@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-GLuint createVAO(float* vertices, int nbrVertices);
+GLuint createVAO2D(float* vertices, int nbrVertices);
 void drawVAO(GLuint vaoID, int nbrVertices);
 
 #endif

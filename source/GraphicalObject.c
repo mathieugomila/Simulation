@@ -1,7 +1,7 @@
 #include "header/GraphicalObject.h"
 
 
-GLuint createVAO(float* vertices, int nbrVertices){
+GLuint createVAO2D(float* vertices, int nbrVertices){
     GLuint vaoID;
     GLuint vboID;
 

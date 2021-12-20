@@ -5,12 +5,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <cglm/cglm.h>
 
 #include "Console.h"
 
 typedef struct{
-    float position[2];
-    float direction[2];
+    float position[3];
+    float direction[3];
     float size;
 } state;
 

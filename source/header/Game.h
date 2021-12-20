@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "GraphicalObject.h"
 #include "Particules.h"
+#include "Camera.h"
 
 typedef struct window {
    GLFWwindow* ID;

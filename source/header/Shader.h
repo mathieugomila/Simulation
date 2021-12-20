@@ -3,6 +3,8 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <cglm/cglm.h>
+
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -16,5 +18,7 @@ GLuint compileShader(const char* shaderName);
 GLuint compileVertexShader(const char* shaderName);
 GLuint compileFragmentShader(const char* shaderName);
 void useShader(GLuint shaderID);
+void sendUniformValue3f(GLuint shader, char* name, float value[3]);
+void sendUniformValue4x4(GLuint shader, char* name, mat4 value);
 
 #endif

@@ -42,7 +42,7 @@ int gameLoadContent(GLuint* shader, float* vertices, GLuint* vaoID, state** allP
     for(int i = 0; i < nbrOfParticules; i++){
         allParticulesStates[i] = createParticule();
         vertices = createParticuleVerticesArray(allParticulesStates[i]);
-        vaoID[i] = createVAO2D(vertices, 6);
+        vaoID[i] = createVAO3D(vertices, 36);
     }   
 
     
@@ -65,6 +65,7 @@ int gameUpdate(window_t* window, state** allParticulesStates, int nbrOfParticule
     for(int i = 0; i < nbrOfParticules; i++){
         allParticulesStates[i]->position[0] += 0.005 * allParticulesStates[i]->direction[0];
         allParticulesStates[i]->position[1] += 0.005 * allParticulesStates[i]->direction[1];
+        allParticulesStates[i]->position[2] += 0.005 * allParticulesStates[i]->direction[2];
     }
 
     return 0;
@@ -75,7 +76,7 @@ int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color, stat
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    glFrontFace(GL_CW);
+    glFrontFace(GL_CCW);
 
     // Reset different buffers
     glClearColor(*color, *color, *color, 1.0f);
@@ -84,12 +85,16 @@ int gameDraw(window_t* window, GLuint* shader, GLuint* vaoID, float* color, stat
     // draw using shader
     useShader(*shader);
 
-    // update particule position
-    GLuint uniformID = glGetUniformLocation(*shader, "particulePosition");
+    // Send position of the camera
+    updatePerspectiveCamera(*shader);
+
+    // update particule position    
     for(int i = 0; i < nbrOfParticules; i++){
-        glUniform2f(uniformID, allParticulesStates[i]->position[0], allParticulesStates[i]->position[1]);
-        drawVAO(vaoID[i], 6);
+        sendUniformValue3f(*shader, "particulePosition", allParticulesStates[i]->position);
+        drawVAO(vaoID[i], 36);
     }
+
+    // Stop using shader
     useShader(0);
     
     // swap buffers

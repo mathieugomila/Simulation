@@ -205,3 +205,13 @@ GLuint compileShader(const char* shaderName){
 void useShader(GLuint shaderID){
     glUseProgram(shaderID);
 }
+
+void sendUniformValue3f(GLuint shader, char* name, float value[3]){
+    GLuint uniformID = glGetUniformLocation(shader, name);
+    glUniform3f(uniformID, value[0], value[1], value[2]);
+}
+
+void sendUniformValue4x4(GLuint shader, char* name, mat4 value){
+    GLuint uniformID = glGetUniformLocation(shader, name);
+    glUniformMatrix4fv(uniformID, 1, GL_FALSE, (float*)value);
+}

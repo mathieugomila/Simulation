@@ -12,7 +12,7 @@
 
 int main(){
     int gameShouldContinue = 1; // True
-    window_t window = {NULL, 1000, 1000};
+    window_t window = {NULL, 1440, 1440};
     GLuint shader;
     float* vertices = NULL; 
     float color = 0.5;
@@ -21,7 +21,7 @@ int main(){
     srand(time(NULL));
 
     // Particules
-    unsigned int nbrParticules = 100;
+    unsigned int nbrParticules = 1000;
     state** allParticulesStates = malloc(nbrParticules * sizeof(state));
     GLuint* vaoID = malloc(nbrParticules * sizeof(GLuint));
 
